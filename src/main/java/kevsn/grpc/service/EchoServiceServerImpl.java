@@ -33,13 +33,10 @@ public class EchoServiceServerImpl extends EchoServiceImplBase {
 			StreamObserver<EchoResponse> responseObserver) {
 		return new StreamObserver<EchoRequest>() {
 
-			private EchoRequest preReq;
-
 			@Override
 			public void onNext(EchoRequest value) {
 				String reqMsg = value.getMsg();
 				logger.info("received:" + reqMsg);
-				this.preReq = value;
 			}
 
 			@Override
@@ -49,8 +46,7 @@ public class EchoServiceServerImpl extends EchoServiceImplBase {
 
 			@Override
 			public void onCompleted() {
-				EchoResponse resp = newResp(this.preReq);
-				responseObserver.onNext(resp);
+				// responseObserver.onNext(resp);
 				responseObserver.onCompleted();
 			}
 		};
@@ -79,7 +75,7 @@ public class EchoServiceServerImpl extends EchoServiceImplBase {
 				// responseObserver.onCompleted();
 				// do nothing
 				// 客户端已经停止发送，则服务端也停止
-				responseObserver.onCompleted();
+				 responseObserver.onCompleted();
 			}
 		};
 	}

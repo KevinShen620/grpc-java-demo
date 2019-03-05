@@ -54,12 +54,14 @@ public class EchoClient {
 					@Override
 					public void onNext(EchoResponse value) {
 						logger.info("received:" + value.getMsg());
-						int index = value.getIndex() + 1;
-						EchoRequest req = newRequest(index);
-						this.reqstream.onNext(req);
-						if (index == 9) {
+						int reIndex = value.getIndex();
+						if (reIndex == 9) {
 							// 如果已经是第十条消息了，则停止发送
 							this.reqstream.onCompleted();
+						} else {
+							int index = reIndex + 1;
+							EchoRequest req = newRequest(index);
+							this.reqstream.onNext(req);
 						}
 					}
 
